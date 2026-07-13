@@ -82,7 +82,6 @@ export async function POST(request: Request) {
 
     if (
       !name.trim() ||
-      !email.trim() ||
       !phone.trim() ||
       !eventType.trim() ||
       !eventDate.trim() ||
@@ -100,15 +99,15 @@ export async function POST(request: Request) {
 
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    if (!emailPattern.test(email.trim())) {
-      return NextResponse.json(
-        {
-          error: "Please provide a valid email address.",
-        },
-        {
-          status: 400,
-        }
-      );
+    if (email.trim() && !emailPattern.test(email.trim())) {
+        return NextResponse.json(
+            {
+            error: "Please provide a valid email address.",
+            },
+            {
+            status: 400,
+            }
+        );
     }
 
     const safeName = escapeHtml(name.trim());
@@ -131,7 +130,7 @@ export async function POST(request: Request) {
       // Testing recipient
       to: ["ariannerivero32@gmail.com"],
 
-      replyTo: email.trim(),
+      ...(email.trim() ? { replyTo: email.trim() } : {}),
 
       subject: `New Event Request: ${eventType.trim()} from ${name.trim()}`,
 
