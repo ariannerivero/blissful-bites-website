@@ -128,7 +128,7 @@ export async function POST(request: Request) {
       from: "Blissful Bites Website <onboarding@resend.dev>",
 
       // Testing recipient
-      to: ["ariannerivero32@gmail.com"],
+      to: ["getservlypro@gmail.com"],
 
       ...(email.trim() ? { replyTo: email.trim() } : {}),
 
